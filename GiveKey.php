@@ -26,7 +26,7 @@ if(isset($_POST['login']) && isset($_POST['mdpapi'])) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if($user) {
-        // Générer une clé API aléatoire (vous pouvez personnaliser la génération selon vos besoins)
+        // Générer une clé API aléatoire
         $cleapi = substr(md5(uniqid()), 0, 20);
 
         // Mettre à jour la clé API dans la base de données (pour qu'elle ne change jamais)
