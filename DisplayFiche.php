@@ -67,4 +67,5 @@ if($user) {
 
 $pdo = null;
 
-//http://localhost/MissionWebService/DisplayFiche.php?id_fichefrais=1&cleapi=daeb05f3ca36d624673e
+//URL Type pour obtenir la fiche après avoir obtenu la clé :
+//http://localhost/MissionWebService/WebService/DisplayFiche.php?id_fichefrais=1&cleapi=6cf5c95d4698af8bbf0f
