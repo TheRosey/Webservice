@@ -1,6 +1,6 @@
 <?php
 
-//Does the same as GiveKeyURL, except asked via form
+//Gives the key
 
 // Database settings
 $db = "frais_gsb";
