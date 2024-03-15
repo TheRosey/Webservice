@@ -1,4 +1,7 @@
 <?php
+
+//Does the same as GiveKeyURL, except asked via form
+
 // Database settings
 $db = "frais_gsb";
 $dbhost = "localhost";
@@ -12,12 +15,12 @@ ini_set('display_errors', 'On');
 $pdo = new PDO('mysql:host=' . $dbhost . ';port=' . $dbport . ';dbname=' . $db . '', $dbuser, $dbpasswd);
 $pdo->exec("SET CHARACTER SET utf8");
 
-// Vérifier si les paramètres de login et mdpapi sont fournis
+// Auth check for login and pass
 if(isset($_POST['login']) && isset($_POST['mdpapi'])) {
     $login = $_POST['login'];
     $mdpapi = $_POST['mdpapi'];
 
-    // Vérifier l'authentification
+    // Auth check
     $stmt = $pdo->prepare("SELECT * FROM users2 WHERE login = :login AND mdpapi = :mdpapi");
     $stmt->bindParam(':login', $login);
     $stmt->bindParam(':mdpapi', $mdpapi);
@@ -26,16 +29,16 @@ if(isset($_POST['login']) && isset($_POST['mdpapi'])) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if($user) {
-        // Générer une clé API aléatoire
+        // cleapi random gen
         $cleapi = substr(md5(uniqid()), 0, 20);
 
-        // Mettre à jour la clé API dans la base de données (pour qu'elle ne change jamais)
+        // update cleapi in DB
         $updateStmt = $pdo->prepare("UPDATE users2 SET cleapi = :cleapi WHERE id = :id");
         $updateStmt->bindParam(':cleapi', $cleapi);
         $updateStmt->bindParam(':id', $user['id']);
         $updateStmt->execute();
 
-        // Construire le tableau avec les informations à retourner
+        // Return as table
         $response = [
             'nom' => $user['nom'],
             'prenom' => $user['prenom'],
@@ -43,14 +46,14 @@ if(isset($_POST['login']) && isset($_POST['mdpapi'])) {
             'cleapi' => $cleapi
         ];
 
-        // Afficher le JSON résultant
+        // Resulting JSON
         echo json_encode($response);
     } else {
-        // Authentification échouée
+        // Auth failed
         echo json_encode(['error' => 'Authentification échouée']);
     }
 } else {
-    // Paramètres manquants
+    // Missing params
     echo json_encode(['error' => 'Paramètres manquants']);
 }
 
