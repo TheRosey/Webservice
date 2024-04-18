@@ -18,7 +18,7 @@ $login = isset($_GET['login']) ? $_GET['login'] : '';
 $mdpapi = isset($_GET['mdpapi']) ? $_GET['mdpapi'] : '';
 
 // Check Auth.
-$stmt = $pdo->prepare("SELECT * FROM users2 WHERE login = :login AND mdpapi = :mdpapi");
+$stmt = $pdo->prepare("SELECT * FROM users2 WHERE login = :login AND mdpapi = :mdpapi;");//ici  
 $stmt->bindParam(':login', $login);
 $stmt->bindParam(':mdpapi', $mdpapi);
 $stmt->execute();
@@ -28,10 +28,10 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if($user) {
     // Random key (20characters (cleapi))
     $cleapi = substr(md5(uniqid()), 0, 20);
+    $hapi = 'Now: '.time(); //ici \'%d-%m-%Y à %H:%i:%s'\
 
     // Update cleapi in DB
-    $updateStmt = $pdo->prepare("UPDATE users2 SET cleapi = :cleapi WHERE id = :id");
-    $updateStmt = $pdo=>prepare("UPDATE users2 SET heureapi = CURRENT_TIMESTAMP() WHERE id=:id");
+    $updateStmt = $pdo->prepare("UPDATE users2 SET cleapi = :cleapi, heureapi = NOW() WHERE id = :id"); //ici
     $updateStmt->bindParam(':cleapi', $cleapi);
     $updateStmt->bindParam(':id', $user['id']);
     $updateStmt->execute();

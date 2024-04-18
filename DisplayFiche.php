@@ -22,7 +22,7 @@ $id_fichefrais = isset($_GET['id_fichefrais']) ? $_GET['id_fichefrais'] : '';
 $cleapi = isset($_GET['cleapi']) ? $_GET['cleapi'] : '';
 
 // Check Auth.
-$stmtAuth = $pdo->prepare("SELECT * FROM users2 WHERE cleapi = :cleapi");
+$stmtAuth = $pdo->prepare("SELECT * FROM users2 WHERE cleapi = :cleapi AND DATE_ADD(heureapi, INTERVAL 1 MINUTE) > now()");
 $stmtAuth->bindParam(':cleapi', $cleapi);
 $stmtAuth->execute();
 
