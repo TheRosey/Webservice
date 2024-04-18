@@ -31,6 +31,7 @@ if($user) {
 
     // Update cleapi in DB
     $updateStmt = $pdo->prepare("UPDATE users2 SET cleapi = :cleapi WHERE id = :id");
+    $updateStmt = $pdo=>prepare("UPDATE users2 SET heureapi = CURRENT_TIMESTAMP() WHERE id=:id");
     $updateStmt->bindParam(':cleapi', $cleapi);
     $updateStmt->bindParam(':id', $user['id']);
     $updateStmt->execute();
